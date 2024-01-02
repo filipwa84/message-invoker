@@ -43,6 +43,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
             mockServiceContainer.Setup(x => x.GetService(typeof(IServiceScopeFactory))).Returns(mockScopeFactory.Object);
             mockServiceBusClient.Setup(x => x.CreateSender(It.IsAny<string>())).Returns<string>(x => mockServiceBusSender.Object);
             mockServiceBusClient.Setup(x => x.CreateReceiver(It.IsAny<string>())).Returns<string>(x => mockServiceBusReceiver.Object);
+            
             mockServiceBusReceiver.Setup(x => x.ReceiveMessageAsync(It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>())).Returns(() =>
             {
                 var message = GetServiceBusMessage();
@@ -53,6 +54,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
 
                 return Task.FromResult(receivedMessage);
             });
+            
             mockServiceBusSender.Setup(x => x.SendMessageAsync(It.IsAny<ServiceBusMessage>(), It.IsAny<CancellationToken>())).Returns<ServiceBusMessage, CancellationToken>((message, token) =>
             {
                 GetServiceBusMessage(message);
