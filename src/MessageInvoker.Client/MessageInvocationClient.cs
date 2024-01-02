@@ -22,7 +22,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Client
                 throw new Exception($"The {nameof(MessageInvocationClient)} requires a connection string in order to be constructed.");
 
             if (serviceProvider == null)
-                throw new Exception("IServiceProvider was null");
+                throw new ArgumentNullException(nameof(serviceProvider));
 
             var options = new ServiceBusClientOptions
             {
