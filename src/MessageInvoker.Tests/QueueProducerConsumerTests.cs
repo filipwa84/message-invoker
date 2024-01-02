@@ -39,7 +39,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
             var mockServiceBusSender = new Mock<ServiceBusSender>();
             var mockServiceBusReceiver = new Mock<ServiceBusReceiver>(MockBehavior.Loose);
             var mockServiceBusClient = new Mock<ServiceBusClient>(MockBehavior.Loose);
-            var mockQueueProducerService = new Mock<QueueProducerService>(mockServiceBusClient.Object, "fake-queue-name");
+            
 
             mockServiceContainer.Setup(x => x.GetService(typeof(IFakeService))).Returns(_fakeService);
             mockScopeFactory.Setup(x => x.CreateScope()).Returns(mockScope.Object);
@@ -57,35 +57,26 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
 
                 return Task.FromResult(receivedMessage);
             });
-            mockQueueProducerService.Setup(x => x.SendMessage(It.IsAny<IInvocationMessage>()))
-                .Returns<IInvocationMessage>(message =>
+            mockServiceBusSender.Setup(x => x.SendMessageAsync(It.IsAny<ServiceBusMessage>(), It.IsAny<CancellationToken>()))
+                .Returns<ServiceBusMessage, CancellationToken>((message, token) =>
                 {
-                    var serviceBusMessage = GetServiceBusMessage(message);
+                    GetServiceBusMessage(message);
 
-                    return Task.FromResult(serviceBusMessage);
+                    return Task.CompletedTask;
 
                 });
 
             _serviceProvider = mockServiceContainer.Object;
             _queueConsumerService = new QueueConsumerService(_serviceProvider, mockServiceBusClient.Object, "fake-queue-name");
-            _queueProducerService = mockQueueProducerService.Object;
+            _queueProducerService = new QueueProducerService(mockServiceBusClient.Object, "fake-queue-name");
         }
 
-        private ServiceBusMessage GetServiceBusMessage(IInvocationMessage invocationMessage = null)
+        private ServiceBusMessage GetServiceBusMessage(ServiceBusMessage serviceBusMessage = null)
         {
-            if (invocationMessage == null)
+            if (serviceBusMessage == null)
             {
                 return _messages.Dequeue();
             }
-
-            var byteStream = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(invocationMessage));
-
-            var serviceBusMessage = new ServiceBusMessage(byteStream)
-            {
-                ContentType = "application/json",
-                MessageId = "someid"
-            };
-
             _messages.Enqueue(serviceBusMessage);
 
             return serviceBusMessage;
