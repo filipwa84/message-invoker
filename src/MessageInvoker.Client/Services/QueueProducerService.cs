@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Messageing.ServiceBus.Invoker.Client.Helpers;
-using Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters;
+using Azure.Messageing.ServiceBus.Invoker.Client.Messages;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Azure.Amqp;
 using Microsoft.Azure.Amqp.Framing;

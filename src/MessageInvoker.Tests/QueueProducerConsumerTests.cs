@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters;
 using Azure.Messageing.ServiceBus.Invoker.Client.Services;
 using Azure.Messaging.ServiceBus;
 using Moq;
-using Newtonsoft.Json;
+
 using NUnit.Framework;
 using Azure.Messageing.ServiceBus.Invoker.Tests.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using System.Collections.Generic;
-using System.Linq;
-using Azure.Messageing.ServiceBus.Invoker.Client.Helpers;
 
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace Azure.Messageing.ServiceBus.Invoker.Tests
@@ -57,14 +53,13 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
 
                 return Task.FromResult(receivedMessage);
             });
-            mockServiceBusSender.Setup(x => x.SendMessageAsync(It.IsAny<ServiceBusMessage>(), It.IsAny<CancellationToken>()))
-                .Returns<ServiceBusMessage, CancellationToken>((message, token) =>
-                {
-                    GetServiceBusMessage(message);
+            mockServiceBusSender.Setup(x => x.SendMessageAsync(It.IsAny<ServiceBusMessage>(), It.IsAny<CancellationToken>())).Returns<ServiceBusMessage, CancellationToken>((message, token) =>
+            {
+                GetServiceBusMessage(message);
 
-                    return Task.CompletedTask;
+                return Task.CompletedTask;
 
-                });
+            });
 
             _serviceProvider = mockServiceContainer.Object;
             _queueConsumerService = new QueueConsumerService(_serviceProvider, mockServiceBusClient.Object, "fake-queue-name");

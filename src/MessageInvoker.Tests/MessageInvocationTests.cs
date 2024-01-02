@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Extensions.DependencyInjection;
 using Azure.Messageing.ServiceBus.Invoker.Client.Helpers;
-using Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters;
+using Azure.Messageing.ServiceBus.Invoker.Client.Messages;
 using Azure.Messageing.ServiceBus.Invoker.Client.Services;
 using Moq;
 using NUnit.Framework;

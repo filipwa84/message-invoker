@@ -1,4 +1,4 @@
-﻿using Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters;
+﻿using Azure.Messageing.ServiceBus.Invoker.Client.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

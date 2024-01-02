@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters;
+using Azure.Messageing.ServiceBus.Invoker.Client.Messages;
 using Azure.Messaging.ServiceBus;
 using Newtonsoft.Json;
 
