@@ -8,30 +8,25 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.Messageing.ServiceBus.Invoker.Helpers;
-using Azure.Messageing.ServiceBus.Invoker.MessageContainers;
+using Azure.Messageing.ServiceBus.Invoker.Client.Helpers;
+using Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Azure.Amqp;
 using Microsoft.Azure.Amqp.Framing;
 using Microsoft.Azure.Amqp.Serialization;
 using Newtonsoft.Json;
 
-
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-namespace Azure.Messageing.ServiceBus.Invoker.Services
+namespace Azure.Messageing.ServiceBus.Invoker.Client.Services
 {
 
     internal class QueueProducerService : IQueueProducerService
-    {
-        private readonly ServiceBusClient _serviceBusClient;
-        private readonly ServiceBusSender _serviceBusSender;
-        private readonly IMessageInvokerService _messageInvokerService;
+    {       
+        private readonly ServiceBusSender _serviceBusSender;        
 
         public QueueProducerService(ServiceBusClient serviceBusClient, string queueName)
-        {
-            _serviceBusClient = serviceBusClient;
+        {     
             _serviceBusSender = serviceBusClient.CreateSender(queueName);
-            _messageInvokerService = new MessageInvokerService();
         }
 
         public async Task<ServiceBusMessage> SubmitMethodStringToQueue(string fullyQualifiedTypeName, string methodName, object[] parameters, string tag = null)
@@ -43,7 +38,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Services
 
         public async Task<ServiceBusMessage> SubmitMethodExpressionToQueue<TClass>(Expression<Action<TClass>> expression, string tag = null)
         {
-            var parameters = ExpressionHelpers.ResolveArgs(expression);
+            var parameters = ExpressionHelpers.GetParameters(expression);
             var methodName = ExpressionHelpers.GetMethodName(expression);
             var callers = ExpressionHelpers.GetCallers(expression);
 
@@ -52,7 +47,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Services
             return await SendMessage(mc);
         }
 
-        private async Task<ServiceBusMessage> SendMessage(IInvocationMessage mc)
+        public virtual async Task<ServiceBusMessage> SendMessage(IInvocationMessage mc)
         {
             var byteStream = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(mc));
 

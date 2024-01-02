@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Helpers
+namespace Azure.Messageing.ServiceBus.Invoker.Client.Helpers
 {
     internal interface IHasher
     {

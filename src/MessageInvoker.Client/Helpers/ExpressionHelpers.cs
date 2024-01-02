@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Helpers
+namespace Azure.Messageing.ServiceBus.Invoker.Client.Helpers
 {
     internal static class ExpressionHelpers
     {
@@ -20,7 +20,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Helpers
             return expression.Body.ToString().TrimOnKeyword(methodName).RemoveFirstCaller();
         }
 
-        public static KeyValuePair<Type, object>[] ResolveArgs(LambdaExpression expression)
+        public static KeyValuePair<Type, object>[] GetParameters<TClass>(Expression<Action<TClass>> expression)
         {
             var body = (MethodCallExpression)expression.Body;
             var values = new List<KeyValuePair<Type, object>>();

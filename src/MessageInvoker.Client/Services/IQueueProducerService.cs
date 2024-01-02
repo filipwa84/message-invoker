@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Services
+namespace Azure.Messageing.ServiceBus.Invoker.Client.Services
 {
     public interface IQueueProducerService
     {
@@ -25,6 +25,6 @@ namespace Azure.Messageing.ServiceBus.Invoker.Services
         /// <param name="expression">Expression of method call to be executed.</param>
         /// <param name="tag">Message tag that can be used to identify the execution.</param>
         /// <returns>Service bus message</returns>
-        Task<ServiceBusMessage> SubmitMethodExpressionToQueue<TService>(Expression<Action<TService>> expression, string tag = null);          
+        Task<ServiceBusMessage> SubmitMethodExpressionToQueue<TService>(Expression<Action<TService>> expression, string tag = null);
     }
 }

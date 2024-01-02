@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Azure.Messageing.ServiceBus.Invoker.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Azure.Messageing.ServiceBus.Invoker.MessageContainers
+namespace Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters
 {
     [Serializable]
     public class InvocationMessage<TTarget> : InvocationMessage
@@ -45,7 +44,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.MessageContainers
             MethodName = methodName;
         }
 
-        
+
 
     }
 }

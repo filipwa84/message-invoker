@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Concurrent;
-using Azure.Messageing.ServiceBus.Invoker.Services;
-using Azure.Messageing.ServiceBus.Invoker.src.MessageInvoker.Client.Services;
+using Azure.Messageing.ServiceBus.Invoker.Client.Services;
 using Azure.Messaging.ServiceBus;
 
-namespace Azure.Messageing.ServiceBus.Invoker.src.MessageInvoker.Client
+namespace Azure.Messageing.ServiceBus.Invoker.Client
 {
     public class MessageInvocationClient : IMessageInvocationClient
     {
         private readonly ServiceBusClient _serviceBusClient;
+        private readonly IServiceProvider _serviceProvider;
 
         public IQueueConsumerService QueueConsumerByQueueName(string queueName) => GetConsumer(queueName);
         public IQueueProducerService QueueProducerByQueueName(string queueName) => GetProducer(queueName);
@@ -16,10 +16,13 @@ namespace Azure.Messageing.ServiceBus.Invoker.src.MessageInvoker.Client
         private readonly ConcurrentDictionary<string, IQueueConsumerService> _consumers = new ConcurrentDictionary<string, IQueueConsumerService>();
         private readonly ConcurrentDictionary<string, IQueueProducerService> _producers = new ConcurrentDictionary<string, IQueueProducerService>();
 
-        public MessageInvocationClient(string connectionString)
+        public MessageInvocationClient(string connectionString, IServiceProvider serviceProvider)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new Exception($"The {nameof(MessageInvocationClient)} requires a connection string in order to be constructed.");
+
+            if (serviceProvider == null)
+                throw new Exception("IServiceProvider was null");
 
             var options = new ServiceBusClientOptions
             {
@@ -27,6 +30,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.src.MessageInvoker.Client
             };
 
             _serviceBusClient = new ServiceBusClient(connectionString, options);
+            _serviceProvider = serviceProvider;
         }
 
         private IQueueConsumerService GetConsumer(string queueName)
@@ -39,7 +43,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.src.MessageInvoker.Client
                 return _consumers[queueName];
             }
 
-            var consumer = new QueueConsumerService(_serviceBusClient, queueName);
+            var consumer = new QueueConsumerService(_serviceProvider, _serviceBusClient, queueName);
 
             _consumers.TryAdd(queueName, consumer);
 

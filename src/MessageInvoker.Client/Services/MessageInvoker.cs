@@ -1,5 +1,5 @@
-﻿using Azure.Messageing.ServiceBus.Invoker.Helpers;
-using Azure.Messageing.ServiceBus.Invoker.MessageContainers;
+﻿using Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -9,24 +9,23 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Services
+namespace Azure.Messageing.ServiceBus.Invoker.Client.Services
 {
-    internal class MessageInvokerService : IMessageInvokerService
-    {        
-        public object Invoke(object container, InvocationMessage message)
-        {            
-            object obj;
+    internal class MessageInvoker : IMessageInvoker
+    {
+        private readonly IServiceProvider _serviceProvider;
+        public MessageInvoker(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
-            if (container is IServiceProvider serviceProvider)
-            {
-                var targetType = GetTypeFromAssemblies(message.TargetType);
-                obj = serviceProvider.GetService(targetType);
-            }
-            else
-            {
-                throw new Exception("Incompatible DI container");
-            }
+        public object Invoke(InvocationMessage message)
+        {
+             using var scope = _serviceProvider.CreateScope();
 
+            var targetType = GetTypeFromAssemblies(message.TargetType);
+            var obj = scope.ServiceProvider.GetService(targetType);
+            
             var methodParams = GetParameterArray(message.Parameters);
 
             if (string.IsNullOrEmpty(message.Callers))
@@ -45,15 +44,12 @@ namespace Azure.Messageing.ServiceBus.Invoker.Services
                 return InvokeMethod(propValue, methodParams, message.MethodName);
             }
         }
-        
+
         public object GetMemberValue(MemberExpression exp)
         {
             if (exp.Expression is ConstantExpression)
             {
-                return (((ConstantExpression)exp.Expression).Value)
-                    .GetType()
-                    .GetField(exp.Member.Name)
-                    .GetValue(((ConstantExpression)exp.Expression).Value);
+                return ((ConstantExpression)exp.Expression).Value.GetType().GetField(exp.Member.Name).GetValue(((ConstantExpression)exp.Expression).Value);
             }
             else if (exp.Expression is MemberExpression memberExpression)
             {

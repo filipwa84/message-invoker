@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Helpers
+namespace Azure.Messageing.ServiceBus.Invoker.Client.Helpers
 {
     internal static class StringExtensions
     {
@@ -31,7 +31,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Helpers
         {
             var callers = str.Split('.').ToList();
             callers.RemoveAt(0);
-            callers.RemoveAt(callers.Count - 1);            
+            callers.RemoveAt(callers.Count - 1);
             return string.Join(".", callers);
         }
     }
