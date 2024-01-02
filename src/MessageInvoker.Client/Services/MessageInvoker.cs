@@ -21,27 +21,29 @@ namespace Azure.Messageing.ServiceBus.Invoker.Client.Services
 
         public object Invoke(InvocationMessage message)
         {
-             using var scope = _serviceProvider.CreateScope();
-
-            var targetType = GetTypeFromAssemblies(message.TargetType);
-            var obj = scope.ServiceProvider.GetService(targetType);
-            
-            var methodParams = GetParameterArray(message.Parameters);
-
-            if (string.IsNullOrEmpty(message.Callers))
+            using (var scope = _serviceProvider.CreateScope())
             {
-                return InvokeMethod(obj, methodParams, message.MethodName);
-            }
-            else
-            {
-                var propValue = obj;
-                foreach (var caller in message.Callers.Split('.'))
+                var targetType = GetTypeFromAssemblies(message.TargetType);
+
+                var service = scope.ServiceProvider.GetService(targetType);
+
+                var methodParams = GetParameterArray(message.Parameters);
+
+                if (string.IsNullOrEmpty(message.Callers))
                 {
-                    var propInfo = propValue.GetType().GetProperty(caller);
-                    propValue = propInfo.GetValue(propValue);
+                    return InvokeMethod(service, methodParams, message.MethodName);
                 }
+                else
+                {
+                    var propValue = service;
+                    foreach (var caller in message.Callers.Split('.'))
+                    {
+                        var propInfo = propValue.GetType().GetProperty(caller);
+                        propValue = propInfo.GetValue(propValue);
+                    }
 
-                return InvokeMethod(propValue, methodParams, message.MethodName);
+                    return InvokeMethod(propValue, methodParams, message.MethodName);
+                }
             }
         }
 

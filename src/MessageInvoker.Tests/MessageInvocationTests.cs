@@ -13,7 +13,7 @@ using Azure.Messageing.ServiceBus.Invoker.Tests.Services;
 namespace Azure.Messageing.ServiceBus.Invoker.Tests
 {
     [TestFixture]
-    public class InvocationMessageTests
+    public class MessageInvocationTests
     {
         private IFakeService _fakeService;
         private IServiceProvider _serviceProvider;
@@ -23,7 +23,9 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
 
         [SetUp]
         public void Setup()
-        {   
+        {
+            _fakeService = new FakeService();
+
             var mockServiceContainer = new Mock<IServiceProvider>();            
             var mockScope = new Mock<IServiceScope>();
             var mockScopeFactory = new Mock<IServiceScopeFactory>();
@@ -34,8 +36,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
             mockServiceContainer.Setup(x => x.GetService(typeof(IServiceScopeFactory))).Returns(mockScopeFactory.Object);            
 
             _serviceProvider = mockServiceContainer.Object;
-            _expression = service => service.StringParameterMethod("Success");
-            _fakeService = new FakeService();
+            _expression = service => service.StringParameterMethod("Success");            
         }
 
         [Test]

@@ -11,7 +11,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters
     [Serializable]
     public class InvocationMessage<TTarget> : InvocationMessage
     {
-        public InvocationMessage(KeyValuePair<Type, object>[] parameters, string methodName, string callers, string tag = null)
+        public InvocationMessage(KeyValuePair<Type, object>[] parameters, string methodName, string callers, string tag = "")
         {
             Parameters = parameters;
             TargetType = typeof(TTarget).ToString();
@@ -37,14 +37,13 @@ namespace Azure.Messageing.ServiceBus.Invoker.Client.MethodTransporters
 
         }
 
-        public InvocationMessage(string targetType, string methodName, object[] parameters, string tag = null)
+        public InvocationMessage(string targetType, string methodName, object[] parameters, string tag = "")
         {
             Parameters = parameters.Select(x => new KeyValuePair<Type, object>(x.GetType(), x)).ToArray();
             TargetType = targetType;
             MethodName = methodName;
+            Callers = string.Empty;
+            Tag = tag;
         }
-
-
-
     }
 }

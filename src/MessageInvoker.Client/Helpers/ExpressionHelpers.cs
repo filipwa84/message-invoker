@@ -54,5 +54,13 @@ namespace Azure.Messageing.ServiceBus.Invoker.Client.Helpers
                 return null;
             }
         }
+
+        public static async IAsyncEnumerable<T> AsAsyncEnumerable<T>(this IEnumerable<T> input)
+        {
+            foreach (var value in input)
+            {
+                yield return value;
+            }
+        }
     }
 }
