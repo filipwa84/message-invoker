@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Concurrent;
-using Azure.Messageing.ServiceBus.Invoker.Client.Services;
+using Azure.Messaging.ServiceBus.Invoker.Client.Services;
 using Azure.Messaging.ServiceBus;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Client
+namespace Azure.Messaging.ServiceBus.Invoker.Client
 {
     public class MessageInvocationClient : IMessageInvocationClient
     {

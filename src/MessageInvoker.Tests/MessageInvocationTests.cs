@@ -3,14 +3,14 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Extensions.DependencyInjection;
-using Azure.Messageing.ServiceBus.Invoker.Client.Helpers;
-using Azure.Messageing.ServiceBus.Invoker.Client.Messages;
-using Azure.Messageing.ServiceBus.Invoker.Client.Services;
+using Azure.Messaging.ServiceBus.Invoker.Client.Helpers;
+using Azure.Messaging.ServiceBus.Invoker.Client.Messages;
+using Azure.Messaging.ServiceBus.Invoker.Client.Services;
 using Moq;
 using NUnit.Framework;
-using Azure.Messageing.ServiceBus.Invoker.Tests.Services;
+using Azure.Messaging.ServiceBus.Invoker.Tests.Services;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Tests
+namespace Azure.Messaging.ServiceBus.Invoker.Tests
 {
     [TestFixture]
     public class MessageInvocationTests
@@ -93,7 +93,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
         [Test]
         public void StringExecutionForStringParameterTest()
         {
-            var message = new InvocationMessage("Azure.Messageing.ServiceBus.Invoker.Tests.Services.IFakeService", "StringParameterMethod", new object[] { "Success" });
+            var message = new InvocationMessage("Azure.Messaging.ServiceBus.Invoker.Tests.Services.IFakeService", "StringParameterMethod", new object[] { "Success" });
 
             Assert.AreEqual(nameof(_fakeService.StringParameterMethod), message.MethodName);
             Assert.AreEqual("Success", message.Parameters.First().Value);
@@ -125,7 +125,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
         [Test]
         public void StringExecutionForBooleanParameterTest()
         {
-            var message = new InvocationMessage("Azure.Messageing.ServiceBus.Invoker.Tests.Services.IFakeService", "BoolParameterMethod", new object[] { true });
+            var message = new InvocationMessage("Azure.Messaging.ServiceBus.Invoker.Tests.Services.IFakeService", "BoolParameterMethod", new object[] { true });
             Assert.AreEqual(nameof(_fakeService.BoolParameterMethod), message.MethodName);
             Assert.AreEqual(true, message.Parameters.First().Value);
             Assert.AreEqual(typeof(IFakeService).ToString(), message.TargetType);
@@ -156,7 +156,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
         [Test]
         public void StringExecutionForBooleanReturnedTest()
         {
-            var message = new InvocationMessage("Azure.Messageing.ServiceBus.Invoker.Tests.Services.IFakeService", "BooleanReturnedMethod", new object[] { });
+            var message = new InvocationMessage("Azure.Messaging.ServiceBus.Invoker.Tests.Services.IFakeService", "BooleanReturnedMethod", new object[] { });
             Assert.AreEqual(nameof(_fakeService.BooleanReturnedMethod), message.MethodName);
             Assert.AreEqual(null, message.Parameters.FirstOrDefault().Value);
             Assert.AreEqual(typeof(IFakeService).ToString(), message.TargetType);

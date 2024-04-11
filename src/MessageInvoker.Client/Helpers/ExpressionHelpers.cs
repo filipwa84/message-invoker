@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Client.Helpers
+namespace Azure.Messaging.ServiceBus.Invoker.Client.Helpers
 {
     internal static class ExpressionHelpers
     {

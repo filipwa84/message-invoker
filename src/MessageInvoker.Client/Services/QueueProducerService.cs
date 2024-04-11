@@ -8,8 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.Messageing.ServiceBus.Invoker.Client.Helpers;
-using Azure.Messageing.ServiceBus.Invoker.Client.Messages;
+using Azure.Messaging.ServiceBus.Invoker.Client.Helpers;
+using Azure.Messaging.ServiceBus.Invoker.Client.Messages;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Azure.Amqp;
 using Microsoft.Azure.Amqp.Framing;
@@ -17,7 +17,7 @@ using Microsoft.Azure.Amqp.Serialization;
 using Newtonsoft.Json;
 
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-namespace Azure.Messageing.ServiceBus.Invoker.Client.Services
+namespace Azure.Messaging.ServiceBus.Invoker.Client.Services
 {
 
     internal class QueueProducerService : IQueueProducerService

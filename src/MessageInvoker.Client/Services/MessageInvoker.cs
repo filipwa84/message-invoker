@@ -1,4 +1,4 @@
-﻿using Azure.Messageing.ServiceBus.Invoker.Client.Messages;
+﻿using Azure.Messaging.ServiceBus.Invoker.Client.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Client.Services
+namespace Azure.Messaging.ServiceBus.Invoker.Client.Services
 {
     internal class MessageInvoker : IMessageInvoker
     {

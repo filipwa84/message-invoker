@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Tests.Services
+namespace Azure.Messaging.ServiceBus.Invoker.Tests.Services
 {
     public class FakeService : IFakeService
     {

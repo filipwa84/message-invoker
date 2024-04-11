@@ -1,6 +1,6 @@
-﻿using Azure.Messageing.ServiceBus.Invoker.Client.Services;
+﻿using Azure.Messaging.ServiceBus.Invoker.Client.Services;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Client
+namespace Azure.Messaging.ServiceBus.Invoker.Client
 {
     public interface IMessageInvocationClient
     {

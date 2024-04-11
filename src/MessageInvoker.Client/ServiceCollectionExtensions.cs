@@ -1,4 +1,4 @@
-﻿using Azure.Messageing.ServiceBus.Invoker.Client;
+﻿using Azure.Messaging.ServiceBus.Invoker.Client;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Azure.Messageing.ServiceBus.Invoker
+namespace Azure.Messaging.ServiceBus.Invoker
 {
     public static class ServiceCollectionExtensions
     {

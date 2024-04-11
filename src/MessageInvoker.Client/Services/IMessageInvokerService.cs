@@ -1,9 +1,9 @@
-﻿using Azure.Messageing.ServiceBus.Invoker.Client.Messages;
+﻿using Azure.Messaging.ServiceBus.Invoker.Client.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Client.Services
+namespace Azure.Messaging.ServiceBus.Invoker.Client.Services
 {
     public interface IMessageInvoker
     {

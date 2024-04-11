@@ -1,4 +1,4 @@
-﻿namespace Azure.Messageing.ServiceBus.Invoker.Tests.Services
+﻿namespace Azure.Messaging.ServiceBus.Invoker.Tests.Services
 {
     public interface IFakeService
     {

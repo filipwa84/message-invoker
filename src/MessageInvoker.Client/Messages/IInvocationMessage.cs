@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Client.Messages
+namespace Azure.Messaging.ServiceBus.Invoker.Client.Messages
 {
     public interface IInvocationMessage
     {

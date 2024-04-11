@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
 
-namespace Azure.Messageing.ServiceBus.Invoker.Client.Services
+namespace Azure.Messaging.ServiceBus.Invoker.Client.Services
 {
     public interface IQueueProducerService
     {

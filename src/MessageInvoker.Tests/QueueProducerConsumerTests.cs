@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Azure.Messageing.ServiceBus.Invoker.Client.Services;
+using Azure.Messaging.ServiceBus.Invoker.Client.Services;
 using Azure.Messaging.ServiceBus;
 using Moq;
 
 using NUnit.Framework;
-using Azure.Messageing.ServiceBus.Invoker.Tests.Services;
+using Azure.Messaging.ServiceBus.Invoker.Tests.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using System.Collections.Generic;
 
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-namespace Azure.Messageing.ServiceBus.Invoker.Tests
+namespace Azure.Messaging.ServiceBus.Invoker.Tests
 {
     [TestFixture]
     public class QueueProducerConsumerTests
@@ -90,7 +90,7 @@ namespace Azure.Messageing.ServiceBus.Invoker.Tests
         [Test]
         public async Task SubmitMethodStringToQueueTest()
         {
-            var serviceBusMessage = await _queueProducerService.SubmitMethodStringToQueue("Azure.Messageing.ServiceBus.Invoker.Tests.Services.IFakeService", "StringParameterMethod", new object[] { "Success" });
+            var serviceBusMessage = await _queueProducerService.SubmitMethodStringToQueue("Azure.Messaging.ServiceBus.Invoker.Tests.Services.IFakeService", "StringParameterMethod", new object[] { "Success" });
 
             Assert.DoesNotThrow(() => _queueConsumerService.ProcessMethodInvocation().GetAwaiter().GetResult());
         }
