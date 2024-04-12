@@ -1,6 +1,6 @@
-# Servicebus Message Invoker
+# Azure ServiceBus Message Invoker
 
-Send any method call to the ServiceBus queue and invoke it on either a WebJob or Azure Function in a fire-and-forget fashion without having to write a specific message handler. 
+Send any method call to the Azure ServiceBus Queue and invoke it with either a WebJob or Azure Function, in a fire-and-forget fashion without having to write specific message handlers. 
 
 It requires that the services are registered in DI container, both in the main application as well as in the WebJob/Function.
 
