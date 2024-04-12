@@ -53,10 +53,10 @@ In the WebJob or Azure Function consume and invoke the call as follows:
 private readonly IMessageInvocationClient _messageInvocationClient;
 private readonly IServiceProvider _serviceProvider;        
 
-public Functions(IRemoteExecutionClient remoteExecutionClient, IServiceProvider serviceProvider)
+public Functions(IMessageInvocationClient messageInvocationClient, IServiceProvider serviceProvider)
 {
-    this._remoteExecutionClient = remoteExecutionClient;
-    this._serviceProvider = serviceProvider;                
+    _messageInvocationClient = messageInvocationClient;
+    _serviceProvider = serviceProvider;                
 }
 
 private async Task ProcessMessage([ServiceBusTrigger("name-of-my-queue")] ServiceBusReceivedMessage message, ServiceBusMessageActions messageActions)
