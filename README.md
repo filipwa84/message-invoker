@@ -6,7 +6,7 @@ It requires that the services are registered in DI container, both in the main a
 
 ## Registration
 
-```
+```c#
 using Azure.Messaging.ServiceBus.Invoker.Client;
 .
 .
