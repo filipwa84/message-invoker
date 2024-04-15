@@ -1,4 +1,4 @@
-﻿using Azure.Messaging.ServiceBus.Invoker.Client;
+﻿using Azure.Messaging.ServiceBus.Invoker;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,17 @@ namespace Azure.Messaging.ServiceBus.Invoker
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddSingleton<IMessageInvocationClient>(provider => new MessageInvocationClient(connectionString, provider));
+            return services.AddSingleton<IMessageInvocationClient>(provider => new MessageInvocationClient(provider, connectionString, ServiceBusTransportType.AmqpWebSockets));
+        }
+
+        public static IServiceCollection AddServiceBusMessageInvocationClient(this IServiceCollection services, string connectionString, ServiceBusTransportType transportType)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            return services.AddSingleton<IMessageInvocationClient>(provider => new MessageInvocationClient(provider, connectionString, transportType));
         }
     }
 }

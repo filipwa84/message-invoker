@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Concurrent;
-using Azure.Messaging.ServiceBus.Invoker.Client.Services;
+using Azure.Messaging.ServiceBus.Invoker.Services;
 using Azure.Messaging.ServiceBus;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Client
+namespace Azure.Messaging.ServiceBus.Invoker
 {
     public class MessageInvocationClient : IMessageInvocationClient
     {
@@ -16,7 +16,7 @@ namespace Azure.Messaging.ServiceBus.Invoker.Client
         private readonly ConcurrentDictionary<string, IQueueConsumerService> _consumers = new ConcurrentDictionary<string, IQueueConsumerService>();
         private readonly ConcurrentDictionary<string, IQueueProducerService> _producers = new ConcurrentDictionary<string, IQueueProducerService>();
 
-        public MessageInvocationClient(string connectionString, IServiceProvider serviceProvider)
+        public MessageInvocationClient(IServiceProvider serviceProvider, string connectionString, ServiceBusTransportType transportType)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new Exception($"The {nameof(MessageInvocationClient)} requires a connection string in order to be constructed.");
@@ -26,7 +26,7 @@ namespace Azure.Messaging.ServiceBus.Invoker.Client
 
             var options = new ServiceBusClientOptions
             {
-                TransportType = ServiceBusTransportType.AmqpWebSockets
+                TransportType = transportType
             };
 
             _serviceBusClient = new ServiceBusClient(connectionString, options);

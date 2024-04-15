@@ -7,7 +7,7 @@ It requires that the services are registered in DI container, both in the main a
 ## Registration
 
 ```c#
-using Azure.Messaging.ServiceBus.Invoker.Client;
+using Azure.Messaging.ServiceBus.Invoker;
 .
 .
 .
@@ -35,7 +35,7 @@ public class MyService : IMyService
         //Do some work
 
         //Submit long running task to the queue
-        _messageInvocationClient.GetProducer("name-of-my-queue")
+        _messageInvocationClient.QueueProducerByQueueName("name-of-my-queue")
           .SubmitMethodExpressionToQueue<IMyService>(x => x.SomeLongRunningTask("some-id", "some-id-tag"));
     }
 
@@ -50,31 +50,32 @@ public class MyService : IMyService
 In the WebJob or Azure Function consume and invoke the call as follows:
 
 ```c#
-private readonly IMessageInvocationClient _messageInvocationClient;
-private readonly IServiceProvider _serviceProvider;        
-
-public Functions(IMessageInvocationClient messageInvocationClient, IServiceProvider serviceProvider)
+public class Functions
 {
-    _messageInvocationClient = messageInvocationClient;
-    _serviceProvider = serviceProvider;                
-}
 
-private async Task ProcessMessage([ServiceBusTrigger("name-of-my-queue")] ServiceBusReceivedMessage message, ServiceBusMessageActions messageActions)
-{
-    try
+    private readonly IMessageInvocationClient _messageInvocationClient;        
+
+    public Functions(IMessageInvocationClient messageInvocationClient)
     {
-        using var scope = _serviceProvider.CreateAsyncScope();
-        _messageInvocationClient.GetConsumer("name-of-my-queue").ProcessMethodInvocation(scope.ServiceProvider, message);
-        await serviceBusMessageActions.CompleteMessageAsync(message);                
+        _messageInvocationClient = messageInvocationClient;            
     }
-    catch (Exception e)
-    {                
-        Console.WriteLine($"Message {message.MessageId} was not completed");
-        
-        Console.WriteLine($"Reason: {e.Message}");
-        Console.WriteLine($"Exception: {e.ToString()}");
-        
-        throw;
+
+    public async Task ProcessMessage([ServiceBusTrigger("name-of-my-queue")] ServiceBusReceivedMessage message, ServiceBusMessageActions messageActions)
+    {
+        try
+        {
+            _messageInvocationClient.QueueConsumerByQueueName("name-of-my-queue").ProcessMethodInvocation(message);
+            await messageActions.CompleteMessageAsync(message);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Message {message.MessageId} was not completed");
+
+            Console.WriteLine($"Reason: {e.Message}");
+            Console.WriteLine($"Exception: {e}");
+
+            throw;
+        }
     }
 }
 ```

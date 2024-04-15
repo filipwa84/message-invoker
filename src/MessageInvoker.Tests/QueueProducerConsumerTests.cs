@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Azure.Messaging.ServiceBus.Invoker.Client.Services;
+using Azure.Messaging.ServiceBus.Invoker.Services;
 using Azure.Messaging.ServiceBus;
 using Moq;
 

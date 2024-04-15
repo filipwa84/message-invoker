@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Azure.WebJobs.ServiceBus;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Client.Services
+namespace Azure.Messaging.ServiceBus.Invoker.Services
 {
     public interface IQueueConsumerService
     {

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.Messaging.ServiceBus.Invoker.Client.Messages;
+using Azure.Messaging.ServiceBus.Invoker.Messages;
 using Azure.Messaging.ServiceBus;
 using Newtonsoft.Json;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Client.Services
+namespace Azure.Messaging.ServiceBus.Invoker.Services
 {
     internal class QueueConsumerService : IQueueConsumerService
     {

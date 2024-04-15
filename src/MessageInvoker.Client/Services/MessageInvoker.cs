@@ -1,4 +1,4 @@
-﻿using Azure.Messaging.ServiceBus.Invoker.Client.Messages;
+﻿using Azure.Messaging.ServiceBus.Invoker.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -7,9 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Client.Services
+namespace Azure.Messaging.ServiceBus.Invoker.Services
 {
     internal class MessageInvoker : IMessageInvoker
     {
@@ -82,9 +83,14 @@ namespace Azure.Messaging.ServiceBus.Invoker.Client.Services
 
             foreach (var p in parameters)
             {
-                if (p.Value is JObject || p.Value is JArray || p.Key == typeof(int) || p.Key == typeof(long) || p.Key == typeof(uint) || p.Key == typeof(byte))
+                //Deserializing a cancellation token is not safe and as we don't need to cancel the tasks we can just use CancellationToken.None.
+                if (p.Key == typeof(CancellationToken))
+                {                    
+                    objParams.Add(CancellationToken.None);
+                }
+                else if (p.Value is JObject || p.Value is JArray || p.Key == typeof(int) || p.Key == typeof(long) || p.Key == typeof(uint) || p.Key == typeof(byte))
                 {
-                    objParams.Add(JsonConvert.DeserializeObject(p.Value.ToString(), p.Key));
+                    objParams.Add(JsonConvert.DeserializeObject(p.Value.ToString()!, p.Key)!);
                 }
                 else
                 {

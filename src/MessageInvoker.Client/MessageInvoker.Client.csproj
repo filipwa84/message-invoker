@@ -1,13 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
-		<PackageId>Azure.Messaging.ServiceBus.MessageInvoker</PackageId>
-		<Version>1.0.0</Version>
+		<PackageId>ServiceBus.MessageInvoker</PackageId>
+		<Version>1.0.3</Version>
 		<Description>ServiceBus Message Invoker</Description>
 		<Product>ServiceBus Message Invoker</Product>
 		<Authors>Filip Wallberg</Authors>
 		<TargetFrameworks>net6.0;net7.0;net8.0;netstandard2.1</TargetFrameworks>
 		<RootNamespace>Azure.Messaging.ServiceBus.Invoker</RootNamespace>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/filipwa84/servicebus-message-invoker/</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
 		<Compile Remove="src\**" />
 		<EmbeddedResource Remove="src\**" />
 		<None Remove="src\**" />
@@ -28,6 +33,6 @@
 	<ItemGroup>
 		<PackageReference Include="Azure.Messaging.ServiceBus" Version="7.17.5" />
 		<PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="5.14.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 </Project>

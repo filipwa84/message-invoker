@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Client.Messages
+namespace Azure.Messaging.ServiceBus.Invoker.Messages
 {
     [Serializable]
     public class InvocationMessage<TTarget> : InvocationMessage
