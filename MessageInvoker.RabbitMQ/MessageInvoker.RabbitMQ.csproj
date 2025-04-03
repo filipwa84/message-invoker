@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<PackageId>MessageInvoker.RabbitMQ</PackageId>
+		<Version>1.0.3</Version>
+		<Description>RabbitMQ Message Invoker</Description>
+		<Product>Message Invoker</Product>
+		<Authors>Filip Wallberg</Authors>
+		<TargetFrameworks>net8.0;net9.0;netstandard2.1</TargetFrameworks>
+		<RootNamespace>MessageInvoker.RabbitMQ</RootNamespace>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/filipwa84/servicebus-message-invoker/</PackageProjectUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\README.md" Link="README.md">
+	    <PackagePath>\</PackagePath>
+	    <Pack>true</Pack>
+	  </None>
+	</ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MessageInvoker.Shared\MessageInvoker.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

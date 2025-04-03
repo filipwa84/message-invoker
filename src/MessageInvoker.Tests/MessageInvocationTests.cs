@@ -1,16 +1,16 @@
 using System;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Linq.Expressions;
+using MessageInvoker.Shared.Helpers;
+using MessageInvoker.Shared.Messages;
+using MessageInvoker.Shared.Services;
+using MessageInvoker.Tests.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Azure.Messaging.ServiceBus.Invoker.Helpers;
-using Azure.Messaging.ServiceBus.Invoker.Messages;
-using Azure.Messaging.ServiceBus.Invoker.Services;
 using Moq;
 using NUnit.Framework;
-using Azure.Messaging.ServiceBus.Invoker.Tests.Services;
+using Assert = MessageInvoker.Tests.Services.Assert;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Tests
+namespace MessageInvoker.Tests
 {
     [TestFixture]
     public class MessageInvocationTests
@@ -26,24 +26,24 @@ namespace Azure.Messaging.ServiceBus.Invoker.Tests
         {
             _fakeService = new FakeService();
 
-            var mockServiceContainer = new Mock<IServiceProvider>();            
+            var mockServiceContainer = new Mock<IServiceProvider>();
             var mockScope = new Mock<IServiceScope>();
             var mockScopeFactory = new Mock<IServiceScopeFactory>();
-                      
+
             mockServiceContainer.Setup(x => x.GetService(typeof(IFakeService))).Returns(_fakeService);
             mockScopeFactory.Setup(x => x.CreateScope()).Returns(mockScope.Object);
             mockScope.Setup(x => x.ServiceProvider).Returns(mockServiceContainer.Object);
-            mockServiceContainer.Setup(x => x.GetService(typeof(IServiceScopeFactory))).Returns(mockScopeFactory.Object);            
+            mockServiceContainer.Setup(x => x.GetService(typeof(IServiceScopeFactory))).Returns(mockScopeFactory.Object);
 
             _serviceProvider = mockServiceContainer.Object;
-            _expression = service => service.StringParameterMethod("Success");            
+            _expression = service => service.StringParameterMethod("Success");
         }
 
         [Test]
         public void ShouldGetMethodName()
         {
             var methodName = ExpressionHelpers.GetMethodName(_expression);
-
+            
             Assert.AreEqual(nameof(_fakeService.StringParameterMethod), methodName);
         }
 
@@ -85,23 +85,23 @@ namespace Azure.Messaging.ServiceBus.Invoker.Tests
 
             var message = new InvocationMessage<IFakeService>(parameters, methodName, callers, "tag");
 
-            var messageInvoker = new MessageInvoker(_serviceProvider);
+            var messageInvoker = new MessageInvokerService(_serviceProvider);
 
-            Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
+            NUnit.Framework.Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
         }
 
         [Test]
         public void StringExecutionForStringParameterTest()
         {
-            var message = new InvocationMessage("Azure.Messaging.ServiceBus.Invoker.Tests.Services.IFakeService", "StringParameterMethod", new object[] { "Success" });
+            var message = new InvocationMessage("MessageInvoker.Tests.Services.IFakeService", "StringParameterMethod", new object[] { "Success" });
 
             Assert.AreEqual(nameof(_fakeService.StringParameterMethod), message.MethodName);
             Assert.AreEqual("Success", message.Parameters.First().Value);
             Assert.AreEqual(typeof(IFakeService).ToString(), message.TargetType);
 
-            var messageInvoker = new MessageInvoker(_serviceProvider);
+            var messageInvoker = new MessageInvokerService(_serviceProvider);
 
-            Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
+            NUnit.Framework.Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
         }
 
         [Test]
@@ -117,22 +117,22 @@ namespace Azure.Messaging.ServiceBus.Invoker.Tests
             Assert.AreEqual(true, message.Parameters.First().Value);
             Assert.AreEqual(typeof(IFakeService).ToString(), message.TargetType);
 
-            var messageInvoker = new MessageInvoker(_serviceProvider);
+            var messageInvoker = new MessageInvokerService(_serviceProvider);
 
-            Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
+            NUnit.Framework.Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
         }
 
         [Test]
         public void StringExecutionForBooleanParameterTest()
         {
-            var message = new InvocationMessage("Azure.Messaging.ServiceBus.Invoker.Tests.Services.IFakeService", "BoolParameterMethod", new object[] { true });
+            var message = new InvocationMessage("MessageInvoker.Tests.Services.IFakeService", "BoolParameterMethod", new object[] { true });
             Assert.AreEqual(nameof(_fakeService.BoolParameterMethod), message.MethodName);
             Assert.AreEqual(true, message.Parameters.First().Value);
             Assert.AreEqual(typeof(IFakeService).ToString(), message.TargetType);
 
-            var messageInvoker = new MessageInvoker(_serviceProvider);
+            var messageInvoker = new MessageInvokerService(_serviceProvider);
 
-            Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
+            NUnit.Framework.Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
         }
 
         [Test]
@@ -148,22 +148,22 @@ namespace Azure.Messaging.ServiceBus.Invoker.Tests
             Assert.AreEqual(null, message.Parameters.FirstOrDefault().Value ?? null);
             Assert.AreEqual(typeof(IFakeService).ToString(), message.TargetType);
 
-            var messageInvoker = new MessageInvoker(_serviceProvider);
+            var messageInvoker = new MessageInvokerService(_serviceProvider);
 
-            Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
+            NUnit.Framework.Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
         }
 
         [Test]
         public void StringExecutionForBooleanReturnedTest()
         {
-            var message = new InvocationMessage("Azure.Messaging.ServiceBus.Invoker.Tests.Services.IFakeService", "BooleanReturnedMethod", new object[] { });
+            var message = new InvocationMessage("MessageInvoker.Tests.Services.IFakeService", "BooleanReturnedMethod", new object[] { });
             Assert.AreEqual(nameof(_fakeService.BooleanReturnedMethod), message.MethodName);
             Assert.AreEqual(null, message.Parameters.FirstOrDefault().Value);
             Assert.AreEqual(typeof(IFakeService).ToString(), message.TargetType);
 
-            var messageInvoker = new MessageInvoker(_serviceProvider);
+            var messageInvoker = new MessageInvokerService(_serviceProvider);
 
-            Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
+            NUnit.Framework.Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
         }
 
         [Test]
@@ -178,9 +178,9 @@ namespace Azure.Messaging.ServiceBus.Invoker.Tests
             Assert.AreEqual("Success", message.Parameters.First().Value);
             Assert.AreEqual(typeof(IFakeService).ToString(), message.TargetType);
 
-            var messageInvoker = new MessageInvoker(_serviceProvider);
+            var messageInvoker = new MessageInvokerService(_serviceProvider);
 
-            Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
+            NUnit.Framework.Assert.DoesNotThrow(() => messageInvoker.Invoke(message));
         }
     }
 }

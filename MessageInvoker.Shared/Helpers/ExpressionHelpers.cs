@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Helpers
+namespace MessageInvoker.Shared.Helpers
 {
-    internal static class ExpressionHelpers
+    public static class ExpressionHelpers
     {
         public static string GetMethodName<TClass>(Expression<Action<TClass>> expression)
         {

@@ -1,4 +1,4 @@
-﻿using Azure.Messaging.ServiceBus.Invoker.Messages;
+﻿using MessageInvoker.Shared.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -10,12 +10,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Services
+namespace MessageInvoker.Shared.Messages
 {
-    internal class MessageInvoker : IMessageInvoker
+    public class MessageInvokerService : IMessageInvoker
     {
         private readonly IServiceProvider _serviceProvider;
-        public MessageInvoker(IServiceProvider serviceProvider)
+        public MessageInvokerService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -85,7 +85,7 @@ namespace Azure.Messaging.ServiceBus.Invoker.Services
             {
                 //Deserializing a cancellation token is not safe and as we don't need to cancel the tasks we can just use CancellationToken.None.
                 if (p.Key == typeof(CancellationToken))
-                {                    
+                {
                     objParams.Add(CancellationToken.None);
                 }
                 else if (p.Value is JObject || p.Value is JArray || p.Key == typeof(int) || p.Key == typeof(long) || p.Key == typeof(uint) || p.Key == typeof(byte))

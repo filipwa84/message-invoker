@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Helpers
+namespace MessageInvoker.Shared.Helpers
 {
     internal static class StringExtensions
     {

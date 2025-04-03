@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Azure.Messaging.ServiceBus.Invoker.Services;
 using Azure.Messaging.ServiceBus;
 using Moq;
-
 using NUnit.Framework;
-using Azure.Messaging.ServiceBus.Invoker.Tests.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using System.Collections.Generic;
+using MessageInvoker.Tests.Services;
+using MessageInvoker.Shared.Services;
+using MessageInvoker.AzureServiceBus.Services;
 
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-namespace Azure.Messaging.ServiceBus.Invoker.Tests
+namespace MessageInvoker.Tests
 {
     [TestFixture]
-    public class QueueProducerConsumerTests
+    public class AzureServiceBusQueueProducerConsumerTests
     {
         private IFakeService _fakeService;
         private IServiceProvider _serviceProvider;
-        private IQueueProducerService _queueProducerService;
-        private IQueueConsumerService _queueConsumerService;
+        private IQueueProducerService<ServiceBusMessage> _queueProducerService;
+        private IQueueConsumerService<ServiceBusReceivedMessage> _queueConsumerService;
 
         private Queue<ServiceBusMessage> _messages = new Queue<ServiceBusMessage>();
 
@@ -35,7 +35,7 @@ namespace Azure.Messaging.ServiceBus.Invoker.Tests
             var mockServiceBusSender = new Mock<ServiceBusSender>();
             var mockServiceBusReceiver = new Mock<ServiceBusReceiver>(MockBehavior.Loose);
             var mockServiceBusClient = new Mock<ServiceBusClient>(MockBehavior.Loose);
-            
+
 
             mockServiceContainer.Setup(x => x.GetService(typeof(IFakeService))).Returns(_fakeService);
             mockScopeFactory.Setup(x => x.CreateScope()).Returns(mockScope.Object);
@@ -43,7 +43,7 @@ namespace Azure.Messaging.ServiceBus.Invoker.Tests
             mockServiceContainer.Setup(x => x.GetService(typeof(IServiceScopeFactory))).Returns(mockScopeFactory.Object);
             mockServiceBusClient.Setup(x => x.CreateSender(It.IsAny<string>())).Returns<string>(x => mockServiceBusSender.Object);
             mockServiceBusClient.Setup(x => x.CreateReceiver(It.IsAny<string>())).Returns<string>(x => mockServiceBusReceiver.Object);
-            
+
             mockServiceBusReceiver.Setup(x => x.ReceiveMessageAsync(It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>())).Returns(() =>
             {
                 var message = GetServiceBusMessage();
@@ -54,7 +54,7 @@ namespace Azure.Messaging.ServiceBus.Invoker.Tests
 
                 return Task.FromResult(receivedMessage);
             });
-            
+
             mockServiceBusSender.Setup(x => x.SendMessageAsync(It.IsAny<ServiceBusMessage>(), It.IsAny<CancellationToken>())).Returns<ServiceBusMessage, CancellationToken>((message, token) =>
             {
                 GetServiceBusMessage(message);
@@ -83,16 +83,16 @@ namespace Azure.Messaging.ServiceBus.Invoker.Tests
         public async Task SubmitMethodExpressionToQueueTest()
         {
             var serviceBusMessage = await _queueProducerService.SubmitMethodExpressionToQueue<IFakeService>(service => service.StringParameterMethod("Success"));
-            
-            Assert.DoesNotThrow(() => _queueConsumerService.ProcessMethodInvocation().GetAwaiter().GetResult());
+
+            NUnit.Framework.Assert.DoesNotThrow(() => _queueConsumerService.ProcessMethodInvocation().GetAwaiter().GetResult());
         }
 
         [Test]
         public async Task SubmitMethodStringToQueueTest()
         {
-            var serviceBusMessage = await _queueProducerService.SubmitMethodStringToQueue("Azure.Messaging.ServiceBus.Invoker.Tests.Services.IFakeService", "StringParameterMethod", new object[] { "Success" });
+            var serviceBusMessage = await _queueProducerService.SubmitMethodStringToQueue("MessageInvoker.Tests.Services.IFakeService", "StringParameterMethod", new object[] { "Success" });
 
-            Assert.DoesNotThrow(() => _queueConsumerService.ProcessMethodInvocation().GetAwaiter().GetResult());
+            NUnit.Framework.Assert.DoesNotThrow(() => _queueConsumerService.ProcessMethodInvocation().GetAwaiter().GetResult());
         }
     }
 }
