@@ -22,11 +22,11 @@ jobs:
       - name: Restore MessageInvoker.AzureServiceBus
         run: dotnet restore src/MessageInvoker.AzureServiceBus/MessageInvoker.AzureServiceBus.csproj
 
-      - name: Build MessageInvoker.Core
-        run: dotnet build src/MessageInvoker.Core/MessageInvoker.AzureServiceBus.csproj --configuration Release --no-restore
+      - name: Build MessageInvoker.AzureServiceBus
+        run: dotnet build src/MessageInvoker.AzureServiceBus/MessageInvoker.AzureServiceBus.csproj --configuration Release --no-restore
 
       - name: Pack MessageInvoker.Core
-        run: dotnet pack src/MessageInvoker.Core/MessageInvoker.AzureServiceBus.csproj --configuration Release --no-build -o ./nupkgs
+        run: dotnet pack src/MessageInvoker.AzureServiceBus/MessageInvoker.AzureServiceBus.csproj --configuration Release --no-build -o ./nupkgs
 
       # === MessageInvoker.RabbitMQ ===
       - name: Restore MessageInvoker.RabbitMQ
