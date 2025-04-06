@@ -19,7 +19,7 @@ namespace MessageInvoker.AzureServiceBus
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddSingleton<IServiceBusMessageClient>(provider => new ServiceBusMessageClient(provider, connectionString, ServiceBusTransportType.AmqpWebSockets));
+            return services.AddSingleton((Func<IServiceProvider, Services.IInvocationClient>)(provider => new InvocationClient(provider, connectionString, ServiceBusTransportType.AmqpWebSockets)));
         }
 
         public static IServiceCollection AddServiceBusMessageInvocationClient(this IServiceCollection services, string connectionString, ServiceBusTransportType transportType)
@@ -29,7 +29,7 @@ namespace MessageInvoker.AzureServiceBus
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddSingleton<IServiceBusMessageClient>(provider => new ServiceBusMessageClient(provider, connectionString, transportType));
+            return services.AddSingleton((Func<IServiceProvider, Services.IInvocationClient>)(provider => new InvocationClient(provider, connectionString, transportType)));
         }
     }
 }

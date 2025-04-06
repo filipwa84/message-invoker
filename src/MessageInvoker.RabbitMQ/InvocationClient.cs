@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 
 namespace MessageInvoker.RabbitMQ
 {
-    public class RabbitMqMessageClient : IRabbitMqMessageClient
+    public class InvocationClient : IInvocationClient
     {
         private readonly IChannelFactory _channelFactory;
         private readonly IServiceProvider _serviceProvider;
@@ -16,7 +16,7 @@ namespace MessageInvoker.RabbitMQ
 
         private readonly ConcurrentDictionary<string, IQueueProducerService<byte[]>> _producers = new ConcurrentDictionary<string, IQueueProducerService<byte[]>>();
 
-        public RabbitMqMessageClient(IServiceProvider serviceProvider, IChannelFactory channelFactory)
+        public InvocationClient(IServiceProvider serviceProvider, IChannelFactory channelFactory)
         {
             if (serviceProvider == null)
                 throw new ArgumentNullException(nameof(serviceProvider));

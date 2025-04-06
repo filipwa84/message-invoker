@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MessageInvoker.RabbitMQ.Services
 {
-    public interface IRabbitMqMessageClient : IMessageInvocationClient<byte[], byte[]>
+    public interface IInvocationClient : IMessageInvocationClient<byte[], byte[]>
     {
     }
 }

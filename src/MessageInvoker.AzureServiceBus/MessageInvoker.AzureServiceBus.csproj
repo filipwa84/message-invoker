@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
 		<PackageId>MessageInvoker.AzureServiceBus</PackageId>
-		<Version>1.0.3</Version>
+		<Version>1.1.0</Version>
 		<Description>ServiceBus Message Invoker</Description>
 		<Product>Message Invoker</Product>
 		<Authors>Filip Wallberg</Authors>

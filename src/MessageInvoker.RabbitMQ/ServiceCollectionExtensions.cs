@@ -21,10 +21,10 @@ namespace MessageInvoker.RabbitMQ
 
             services.AddSingleton<IChannelFactory, TFactory>();
 
-            return services.AddSingleton<IRabbitMqMessageClient>(provider =>
+            return services.AddSingleton<IInvocationClient>(provider =>
             { 
                 var channelFactory = provider.GetRequiredService<IChannelFactory>();
-                return new RabbitMqMessageClient(provider, channelFactory);
+                return new InvocationClient(provider, channelFactory);
             });
         }
     }

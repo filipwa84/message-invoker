@@ -7,7 +7,7 @@ using MessageInvoker.AzureServiceBus.Services;
 
 namespace MessageInvoker.AzureServiceBus
 {
-    public class ServiceBusMessageClient : IServiceBusMessageClient
+    public class InvocationClient : IInvocationClient
     {
         private readonly ServiceBusClient _serviceBusClient;
         private readonly IServiceProvider _serviceProvider;
@@ -18,10 +18,10 @@ namespace MessageInvoker.AzureServiceBus
         private readonly ConcurrentDictionary<string, IQueueConsumerService<ServiceBusReceivedMessage>> _consumers = new ConcurrentDictionary<string, IQueueConsumerService<ServiceBusReceivedMessage>>();
         private readonly ConcurrentDictionary<string, IQueueProducerService<ServiceBusMessage>> _producers = new ConcurrentDictionary<string, IQueueProducerService<ServiceBusMessage>>();
 
-        public ServiceBusMessageClient(IServiceProvider serviceProvider, string connectionString, ServiceBusTransportType transportType)
+        public InvocationClient(IServiceProvider serviceProvider, string connectionString, ServiceBusTransportType transportType)
         {
             if (string.IsNullOrEmpty(connectionString))
-                throw new Exception($"The {nameof(ServiceBusMessageClient)} requires a connection string in order to be constructed.");
+                throw new Exception($"The {nameof(InvocationClient)} requires a connection string in order to be constructed.");
 
             if (serviceProvider == null)
                 throw new ArgumentNullException(nameof(serviceProvider));

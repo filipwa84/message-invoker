@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MessageInvoker.AzureServiceBus.Services
 {
-    public interface IServiceBusMessageClient : IMessageInvocationClient<ServiceBusMessage, ServiceBusReceivedMessage>
+    public interface IInvocationClient : IMessageInvocationClient<ServiceBusMessage, ServiceBusReceivedMessage>
     {
     }
 }
