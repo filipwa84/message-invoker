@@ -12,7 +12,7 @@ namespace MessageInvoker.AzureServiceBus
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddServiceBusMessageInvocationClient(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddAzureServiceBusInvocationClient(this IServiceCollection services, string connectionString)
         {
             if (services == null)
             {
@@ -22,7 +22,7 @@ namespace MessageInvoker.AzureServiceBus
             return services.AddSingleton((Func<IServiceProvider, Services.IInvocationClient>)(provider => new InvocationClient(provider, connectionString, ServiceBusTransportType.AmqpWebSockets)));
         }
 
-        public static IServiceCollection AddServiceBusMessageInvocationClient(this IServiceCollection services, string connectionString, ServiceBusTransportType transportType)
+        public static IServiceCollection AddAzureServiceBusInvocationClient(this IServiceCollection services, string connectionString, ServiceBusTransportType transportType)
         {
             if (services == null)
             {

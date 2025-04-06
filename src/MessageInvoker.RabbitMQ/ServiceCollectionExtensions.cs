@@ -12,7 +12,7 @@ namespace MessageInvoker.RabbitMQ
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddServiceBusMessageInvocationClient<TFactory>(this IServiceCollection services) where TFactory : class, IChannelFactory
+        public static IServiceCollection AddRabbitMqInvocationClient<TFactory>(this IServiceCollection services) where TFactory : class, IChannelFactory
         {
             if (services == null)
             {
