@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageInvoker.AzureService
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageInvoker.Tests", "src\MessageInvoker.Tests\MessageInvoker.Tests.csproj", "{A6E15D74-1A49-4812-8AE7-E96C9031DF9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageInvoker.Shared", "MessageInvoker.Shared\MessageInvoker.Shared.csproj", "{C078F409-5C16-40EE-8368-1DF390FC56AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageInvoker.Shared", "src\MessageInvoker.Shared\MessageInvoker.Shared.csproj", "{C078F409-5C16-40EE-8368-1DF390FC56AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageInvoker.RabbitMQ", "MessageInvoker.RabbitMQ\MessageInvoker.RabbitMQ.csproj", "{840CC562-EFF7-4715-87D0-362E34E423D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageInvoker.RabbitMQ", "src\MessageInvoker.RabbitMQ\MessageInvoker.RabbitMQ.csproj", "{840CC562-EFF7-4715-87D0-362E34E423D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
