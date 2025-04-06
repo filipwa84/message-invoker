@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\MessageInvoker.Shared\MessageInvoker.Shared.csproj" />
+	  <ProjectReference Include="..\MessageInvoker.Shared\MessageInvoker.Shared.csproj" />
 	  <ProjectReference Include="..\MessageInvoker.Client\MessageInvoker.AzureServiceBus.csproj" />
 	</ItemGroup>
 

@@ -37,6 +37,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\MessageInvoker.Shared\MessageInvoker.Shared.csproj" />
+	  <ProjectReference Include="..\MessageInvoker.Shared\MessageInvoker.Shared.csproj" />
 	</ItemGroup>
 </Project>
