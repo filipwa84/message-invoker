@@ -1,9 +1,9 @@
-﻿using Azure.Messaging.ServiceBus.Invoker.Messages;
+﻿using MessageInvoker.Shared.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Services
+namespace MessageInvoker.Shared.Services
 {
     public interface IMessageInvoker
     {

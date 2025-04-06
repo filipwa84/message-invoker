@@ -2,9 +2,9 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Azure.Messaging.ServiceBus.Invoker.Helpers
+namespace MessageInvoker.Shared.Helpers
 {
-    internal class Hasher : IHasher
+    public class Hasher : IHasher
     {
         public string ComputeHash(byte[] plainTextBytes)
         {

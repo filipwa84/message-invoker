@@ -1,25 +1,27 @@
 using System;
 using System.Collections.Concurrent;
-using Azure.Messaging.ServiceBus.Invoker.Services;
 using Azure.Messaging.ServiceBus;
+using MessageInvoker.Shared;
+using MessageInvoker.Shared.Services;
+using MessageInvoker.AzureServiceBus.Services;
 
-namespace Azure.Messaging.ServiceBus.Invoker
+namespace MessageInvoker.AzureServiceBus
 {
-    public class MessageInvocationClient : IMessageInvocationClient
+    public class ServiceBusMessageClient : IServiceBusMessageClient
     {
         private readonly ServiceBusClient _serviceBusClient;
         private readonly IServiceProvider _serviceProvider;
 
-        public IQueueConsumerService QueueConsumerByQueueName(string queueName) => GetConsumer(queueName);
-        public IQueueProducerService QueueProducerByQueueName(string queueName) => GetProducer(queueName);
+        public IQueueConsumerService<ServiceBusReceivedMessage> QueueConsumerByQueueName(string queueName) => GetConsumer(queueName);
+        public IQueueProducerService<ServiceBusMessage> QueueProducerByQueueName(string queueName) => GetProducer(queueName);
 
-        private readonly ConcurrentDictionary<string, IQueueConsumerService> _consumers = new ConcurrentDictionary<string, IQueueConsumerService>();
-        private readonly ConcurrentDictionary<string, IQueueProducerService> _producers = new ConcurrentDictionary<string, IQueueProducerService>();
+        private readonly ConcurrentDictionary<string, IQueueConsumerService<ServiceBusReceivedMessage>> _consumers = new ConcurrentDictionary<string, IQueueConsumerService<ServiceBusReceivedMessage>>();
+        private readonly ConcurrentDictionary<string, IQueueProducerService<ServiceBusMessage>> _producers = new ConcurrentDictionary<string, IQueueProducerService<ServiceBusMessage>>();
 
-        public MessageInvocationClient(IServiceProvider serviceProvider, string connectionString, ServiceBusTransportType transportType)
+        public ServiceBusMessageClient(IServiceProvider serviceProvider, string connectionString, ServiceBusTransportType transportType)
         {
             if (string.IsNullOrEmpty(connectionString))
-                throw new Exception($"The {nameof(MessageInvocationClient)} requires a connection string in order to be constructed.");
+                throw new Exception($"The {nameof(ServiceBusMessageClient)} requires a connection string in order to be constructed.");
 
             if (serviceProvider == null)
                 throw new ArgumentNullException(nameof(serviceProvider));
@@ -33,7 +35,7 @@ namespace Azure.Messaging.ServiceBus.Invoker
             _serviceProvider = serviceProvider;
         }
 
-        private IQueueConsumerService GetConsumer(string queueName)
+        private IQueueConsumerService<ServiceBusReceivedMessage> GetConsumer(string queueName)
         {
             if (string.IsNullOrEmpty(queueName) || _serviceBusClient == null)
                 throw new Exception("Invalid configuration");
@@ -50,7 +52,7 @@ namespace Azure.Messaging.ServiceBus.Invoker
             return consumer;
         }
 
-        private IQueueProducerService GetProducer(string queueName)
+        private IQueueProducerService<ServiceBusMessage> GetProducer(string queueName)
         {
             if (string.IsNullOrEmpty(queueName) || _serviceBusClient == null)
                 throw new Exception("Invalid configuration");

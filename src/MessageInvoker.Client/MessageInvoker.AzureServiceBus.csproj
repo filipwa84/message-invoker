@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
-		<PackageId>ServiceBus.MessageInvoker</PackageId>
+		<PackageId>MessageInvoker.AzureServiceBus</PackageId>
 		<Version>1.0.3</Version>
 		<Description>ServiceBus Message Invoker</Description>
-		<Product>ServiceBus Message Invoker</Product>
+		<Product>Message Invoker</Product>
 		<Authors>Filip Wallberg</Authors>
-		<TargetFrameworks>net6.0;net7.0;net8.0;netstandard2.1</TargetFrameworks>
-		<RootNamespace>Azure.Messaging.ServiceBus.Invoker</RootNamespace>
+		<TargetFrameworks>net8.0;net9.0;netstandard2.1</TargetFrameworks>
+		<RootNamespace>MessageInvoker.AzureServiceBus</RootNamespace>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/filipwa84/servicebus-message-invoker/</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/filipwa84/message-invoker</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,15 +24,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
 		<Compile Remove="src\**" />
 		<EmbeddedResource Remove="src\**" />
 		<None Remove="src\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Azure.Messaging.ServiceBus" Version="7.17.5" />
-		<PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="5.14.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.4" />
+		<PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="5.16.5" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\MessageInvoker.Shared\MessageInvoker.Shared.csproj" />
 	</ItemGroup>
 </Project>

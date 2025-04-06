@@ -8,24 +8,25 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.Messaging.ServiceBus.Invoker.Helpers;
-using Azure.Messaging.ServiceBus.Invoker.Messages;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Azure.Amqp;
 using Microsoft.Azure.Amqp.Framing;
 using Microsoft.Azure.Amqp.Serialization;
 using Newtonsoft.Json;
+using MessageInvoker.Shared.Services;
+using MessageInvoker.Shared.Helpers;
+using MessageInvoker.Shared.Messages;
 
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-namespace Azure.Messaging.ServiceBus.Invoker.Services
+namespace MessageInvoker.AzureServiceBus.Services
 {
 
-    internal class QueueProducerService : IQueueProducerService
-    {       
-        private readonly ServiceBusSender _serviceBusSender;        
+    internal class QueueProducerService : IQueueProducerService<ServiceBusMessage>
+    {
+        private readonly ServiceBusSender _serviceBusSender;
 
         public QueueProducerService(ServiceBusClient serviceBusClient, string queueName)
-        {     
+        {
             _serviceBusSender = serviceBusClient.CreateSender(queueName);
         }
 
