@@ -11,7 +11,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/filipwa84/servicebus-message-invoker/</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/filipwa84/message-invoker</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
